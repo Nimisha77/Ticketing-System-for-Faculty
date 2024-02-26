@@ -1,0 +1,105 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath "com.avast.gradle:gradle-docker-compose-plugin:0.16.11"
+	}
+}
+
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.0.4'
+	id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+targetCompatibility = JavaVersion.VERSION_17
+
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+//	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor:3.0.4'
+//	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+	implementation('org.springframework.boot:spring-boot-starter-security')
+	implementation('com.auth0:java-jwt:4.3.0')
+//	implementation("org.apache.httpcomponents:httpclient:4.5.5")
+
+
+
+	implementation 'org.postgresql:postgresql:42.3.1'
+//	implementation 'org.springframework.boot:spring-boot-starter-security:3.0.4'
+//	implementation 'org.springframework.security:spring-security-config:6.0.2'
+
+	compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
+	compileOnly 'org.projectlombok:lombok'
+	//runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'org.postgresql:postgresql'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+//	Test dependencies
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.2'
+	implementation("org.apache.httpcomponents:httpclient:4.5.5")
+	implementation("org.skyscreamer:jsonassert:1.5.0")
+	testImplementation('junit:junit:4.12')
+	implementation("com.google.code.gson:gson:2.10.1")
+//	implementation("com.fasterxml.jackson.core:jackson-databind:2.0.1")
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+}
+
+apply plugin: 'docker-compose'
+
+dockerCompose.isRequiredBy(test)
+
+
+tasks.named('test') {
+//    useJUnitPlatform()
+}
+task backendTestsBackend1(type: Exec) {
+	commandLine 'gradle', 'test', '--tests', 'edu.gatech.cs6301.backend1.*'
+}
+task backendTestsBackend2(type: Exec) {
+	commandLine 'gradle', 'test', '--tests', 'edu.gatech.cs6301.backend2.*'
+}
+task backendTestsBackend3(type: Exec) {
+	commandLine 'gradle', 'test', '--tests', 'edu.gatech.cs6301.backend3.*'
+}
+task backendTestsBackend5(type: Exec) {
+	commandLine 'gradle', 'test', '--tests', 'edu.gatech.cs6301.backend5.*'
+}
+task backendTestsDevops345(type: Exec) {
+	commandLine 'gradle', 'test', '--tests', 'edu.gatech.cs6301.devops345.*'
+}
+task backendTestsMobile2(type: Exec) {
+	commandLine 'gradle', 'test', '--tests', 'edu.gatech.cs6301.mobile2.*'
+}
+task backendTestsWeb4(type: Exec) {
+	commandLine 'gradle', 'test', '--tests', 'edu.gatech.cs6301.web4.*'
+}
+task backendTestsWeb1(type: Exec) {
+	commandLine 'gradle', 'test', '--tests', 'edu.gatech.cs6301.Web1.*'
+}
+bootJar {
+	enabled = true
+	archiveFileName = "TSFSBackend5.jar"
+}
+composeUp.dependsOn bootJar
