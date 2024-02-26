@@ -1,0 +1,477 @@
+openapi: 3.0.3
+info:
+  title: Ticketing System for Faculty & Staff (TSFS) - OpenAPI 3.0
+  description: |-
+    In this swagger file, we defined a RESTful API for the ticketing system based on the requirements discussed in class. 
+    
+    Some useful links:
+    - [User Stories](https://docs.google.com/document/d/1-V7wdznyTD7NmQMymO2UTvFY97zzvKchO1o_ruVNbKs/edit)
+   
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://localhost:8080/v1/
+tags:
+  - name: ticket
+    description: Everything about your Tickets
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+paths:
+  /ticket/{member_id}/created-tickets:
+    get:
+      tags:
+        - ticket
+      summary: Get all the tickets created by the user specified in the url
+      description: Get all the tickets by member ID
+      operationId: getCreatedTickets
+      parameters:
+        - name: member_id
+          in: path
+          description: member id to get tickets
+          required: true
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+        '400':
+          description: Invalid ID supplied
+        '405':
+          description: Validation exception
+      security:
+        - ticketing_auth:
+            - read:tickets
+    
+  /ticket/{member_id}/assigned-tickets:
+    get:
+      tags:
+        - ticket
+      summary: Get all the tickets assigned to the user specified in the url
+      operationId: getAssignedTickets
+      parameters:
+        - name: member_id
+          in: path
+          description: member id to get tickets
+          required: true
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ticket'          
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ticket'
+        '400':
+          description: Invalid ID supplied 
+      security:
+        - ticketing_auth:
+            - read:tickets
+            
+  /ticket/{member_id}/watcher-tickets:
+    get:
+      tags:
+        - ticket
+      summary: Get all the tickets the specified user is a watcher for
+      operationId: getWatcherTickets
+      parameters:
+        - name: member_id
+          in: path
+          description: member id to get tickets
+          required: true
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ticket'          
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ticket'
+        '400':
+          description: Invalid ID supplied 
+      security:
+        - ticketing_auth:
+            - read:tickets
+  /ticket/{member_id}/all-related-tickets:
+    get:
+      tags:
+        - ticket
+      summary: Get all the tickets related to the user specified in the url
+      operationId: getAllRelatedTickets
+      parameters:
+        - name: member_id
+          in: path
+          description: member id to get tickets
+          required: true
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ticket'          
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ticket'
+        '400':
+          description: Invalid ID supplied 
+      security:
+        - ticketing_auth:
+            - read:tickets
+  /ticket/{staff_id}/unassigned-tickets:
+    get:
+      tags:
+        - ticket
+      summary: Get all unassigned tickets
+      operationId: getUnassignedTickets
+      parameters:
+        - name: staff_id
+          in: path
+          description: staff id of user
+          required: true
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful Retrieval of Unassigned Tickets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Ticket"
+            application/xml:
+              schema: 
+                type: array
+                items:
+                  $ref: "#/components/schemas/Ticket"
+        '400':
+          description: Invalid ID supplied
+      security:
+        - ticketing_auth:
+          - read:tickets
+  /ticket/{staff_id}/{ticket_id}:
+    put:
+      tags:
+        - ticket
+      summary: Self-assign staff id to a specific unassigned ticket.
+      operationId: selfAssignTicket
+      parameters:
+        - name: staff_id
+          in: path
+          description: staff id of user
+          required: true
+          explode: false
+          schema:
+            type: string
+        - name: ticket_id
+          in: path
+          description: unique ticket id
+          required: true
+          explode: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful self-assignment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Ticket"
+        '400':
+          description: Invalid staff or ticket id supplied
+        '404':
+          description: Cannot Self-Assign
+      security:
+        - ticketing_auth:
+          - read:tickets
+  /ticketing/{ticket_id}/update-ticket:
+    put:
+      tags:
+        - ticket
+      summary: Update the status of ticket
+      description: Update the status by ticket ID
+      parameters:
+        - name: ticket_id
+          in: path
+          description: id by which it will be accessed
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ticket'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+        '400':
+          description: Ticket ID not found
+  /ticketing/{ticket_id}/create-ticket:
+    post:
+      tags:
+        - ticket
+      summary: creating a new ticket
+      description: create a ticket
+      parameters:
+        - name: ticket_id
+          in: path
+          description: id by which it will be accessed
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ticket'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+        '400':
+          description: Bad request
+  
+  /ticketing/{faculty_id}/{ticket_id}/update-watchers-assignee:
+    put:
+      tags:
+        - ticket
+      
+      parameters:
+        - name: faculty_id
+          in: path
+          description: ID of faculty
+          required: true
+          schema:
+            type: string
+        - name: ticket_id
+          in: path
+          description: ID of ticket
+          required: true
+          schema:
+            type: string
+            
+      summary: Update watchers and/or assignees to a ticket
+      description: Update watchers and/or assignees to a ticket by the faculty who created the ticket
+      operationId: update watchers and/or assignees
+      requestBody:
+        description: Update watchers and/or assignees to a particular ticket by the faculty who created it
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFollowers'
+      responses:
+        '200':
+          description: Successfully updated ticket
+        '400':
+          description: Ticket does not exist 
+        '404':
+          description: ID not found
+        
+  /{ticket_id}/add-comment:
+    post:
+      tags:
+        - ticket
+      parameters:
+        - name: ticket_id
+          in: path
+          description: ID of ticket
+          required: true
+          schema:
+            type: string
+      summary: Add a comment to a ticket
+      description: Add a comment to a ticket
+      operationId: Add a comment to a ticket
+      requestBody:
+        description: Add a comment to a ticket
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+      responses:
+        '200':
+          description: Successfully added comment
+        '400':
+          description: Bad Request
+        '404':
+          description: tags not found
+
+  /{ticket_id}:
+    get:
+      tags:
+        - ticket
+      parameters:
+        - name: ticket_id
+          in: path
+          description: ID of ticket
+          required: true
+          schema:
+            type: string
+      summary: Get an entire ticket
+      description: Get an entire ticket
+      operationId: Get an entire ticket
+      responses:
+        '200':
+          description: Successfully got ticket info
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+        '400':
+          description: Bad Request
+        '404':
+          description: tags not found
+
+    
+
+components:
+  schemas:
+    Ticket:
+      type: object
+      properties:
+        id:
+          type: string
+          example: fcdjs93
+        status:
+          type: string
+          description: Ticket Status
+          example: open
+          enum:
+            - open
+            - closed
+            - canceled
+        title:
+          type: string
+          description: Ticket Title
+          example: request for travel approval
+        description:
+          type: string
+          example: I need to travel for academic seminar for 2 weeks.
+        category:
+          type: string
+          example: travel authorization
+          enum:
+            - travel authorization
+            - reimbursement
+            - meeting organization
+            - student hiring 
+            - proposals
+            - miscellanea
+        email:
+          type: string
+          format: email
+          example: mjiang85@gatech.edu
+        assignee:
+          type: string
+        watchers:
+          type: array
+          items:
+            type: string
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+            
+    Comment:
+      type: object
+      properties:
+              comment_id:
+                type: string
+                example: 001
+              author:
+                type: string
+                example: Lisa
+              creation_time: 
+                type: string
+                format: date-time
+              description:
+                type: string
+              tags:
+                type: array
+                items:
+                  type: string
+    
+    UpdateFollowers: 
+      required:
+        - assigneeID
+        - watcherIDs
+      type: object
+      properties:
+        assigneeID:
+          type: string
+          example: A353BN2353
+        watcherIDs:
+          type: array
+          items:
+            type: string
+            example: A353BN2353
+      
+  
+  securitySchemes:
+    ticketing_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://notassignedyet.com
+          scopes:
+            write:pets: modify tickets in your account
+            read:pets: read your tickets
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
