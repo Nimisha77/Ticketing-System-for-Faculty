@@ -1,0 +1,27 @@
+# Userid
+  Presence of Userid:
+	Userid found.  [property valid_userid]
+	Userid not found. [error]
+	Empty Userid. [error]
+# Ticketid
+ Presence of Ticketid:
+	Ticketid found. [property valid_ticketid]
+	Ticketid not found. [error]
+	Empty Ticketid. [error]
+
+# Ticket Input
+#Ticket Input
+Status tag:
+	Valid tag. [if valid_userid && valid_ticketid]
+	Empty or invalid tag. [error]
+Category tag:
+	Valid tag. [if valid_userid && valid_ticketid]
+	Empty or invalid tag. [error]
+Assignee tag:
+	No name given.		[error]
+	Invalid GT username.	[error]
+	Valid GT username.	[if valid_userid && valid_ticketid]
+Watchers List:
+	Empty List.			[if valid_userid && valid_ticketid]
+	Invalid person in list.	[error]
+	All valid people.		[if valid_userid && valid_ticketid]

@@ -1,0 +1,42 @@
+#Input UserID
+Presence of UserID:
+	UserID found. [single] [property valid_userID]
+	UserID not found. [error]
+	Empty UserID. [error]
+
+#Ticket Input
+Length of ticket title:
+	None.				[error]
+	One.				[single] [if valid_userID]
+	More than one.		[if valid_userID]
+Length of ticket description:
+	None.				[error]
+	One. 				[single] [if valid_userID]
+	More than one. 		[if valid_userID]
+Status tag:
+	Empty. 			[error]
+	Open.				[if valid_userID]
+	Closed.			[if valid_userID]
+	Needs-attention.		[if valid_userID]
+	None of the above.	[error]
+Category tag:
+	Empty.			[error]
+	Travel autherization.	[if valid_userID]
+	Reimbursement.		[if valid_userID]
+	Meeting organization.	[if valid_userID]
+	Student hiring.		[if valid_userID]
+	Proposals.			[if valid_userID]
+	Miscellaneous.		[if valid_userID]
+	None of the above.	[error]
+Email Address:
+	No address.			[error]
+	Invalid email.		[error]
+	Valid email.		[if valid_userID]
+Assignee tag:
+	No name given.		[error]
+	Invalid GT username.	[error]
+	Valid GT username.	[if valid_userID]
+Watchers List:
+	Empty List.			[if valid_userID]
+	Invalid person in list.	[error]
+	All valid people.		[if valid_userID]

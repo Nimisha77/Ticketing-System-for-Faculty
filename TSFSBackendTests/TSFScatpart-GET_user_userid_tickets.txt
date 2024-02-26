@@ -1,0 +1,4 @@
+# Input userid for retrieving all tickets
+	userid:
+		Valid userid.
+		Invalid userid.	[error]

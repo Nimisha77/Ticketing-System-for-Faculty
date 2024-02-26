@@ -1,0 +1,26 @@
+# ID of user who owns the tickets
+    userid:
+        Valid userid.  
+        Invalid userid. [property invaliduserid] [error]
+    
+    # Should I add integer check?
+    ticketid:
+        Valid ticketid. [if !(invaliduserid)]  
+        Invalid ticketid.   [if !(invaliduserid)]   [property invalidticketid]  [error]
+    
+    # request body json should contain all required keys
+    request body structure:
+        Match schema Comment.    
+        Does not match schema Comment.   [property invalidschema]  [error]
+
+    body_author:
+        valid userid - who can comment. [if !(invalidticketid) && (!(invaliduserid) && !(invalidschema))]
+        invalid userid - who cant comment.  [error]
+
+    body_createdDate:
+        valid string. [if !(invalidticketid) && (!(invaliduserid) && !(invalidschema))]
+        invalid string. [error]
+    
+    body_content:
+        valid string. [if !(invalidticketid) && (!(invaliduserid) && !(invalidschema))]
+        invalid string. [error]

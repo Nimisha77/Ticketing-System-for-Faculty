@@ -1,0 +1,21 @@
+
+Test Case 1  		<error>
+   Presence of Userid :  Userid not found
+
+
+Test Case 2  		<error>
+   Presence of Userid :  Empty Userid
+
+
+Test Case 3  		<error>
+   Presence of Ticketid :  Ticketid not found
+
+
+Test Case 4  		<error>
+   Presence of Ticketid :  Empty Ticketid
+
+
+Test Case 5  		(Key = 1.1.)
+   Presence of Userid   :  Userid found
+   Presence of Ticketid :  Ticketid found
+

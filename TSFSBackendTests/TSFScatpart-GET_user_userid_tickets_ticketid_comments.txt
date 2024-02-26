@@ -1,0 +1,10 @@
+# userid
+  Presence of Userid:
+	Userid found.  [property valid_userid]
+	Userid not found. [error]
+	Empty Userid. [error]
+# Ticketid
+ Presence of Ticketid:
+	Ticketid found. [property valid_ticketid]
+	Ticketid not found. [error]
+	Empty Ticketid. [error]

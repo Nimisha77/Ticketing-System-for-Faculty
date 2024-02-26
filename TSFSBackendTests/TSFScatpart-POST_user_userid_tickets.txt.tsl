@@ -1,0 +1,75 @@
+
+Test Case 1  		<single>
+   Presence of UserID :  UserID found
+
+
+Test Case 2  		<error>
+   Presence of UserID :  UserID not found
+
+
+Test Case 3  		<error>
+   Presence of UserID :  Empty UserID
+
+
+Test Case 4  		<error>
+   Length of ticket title :  None
+
+
+Test Case 5  		<single>
+   Length of ticket title :  One
+
+
+Test Case 6  		<error>
+   Length of ticket description :  None
+
+
+Test Case 7  		<single>
+   Length of ticket description :  One
+
+
+Test Case 8  		<error>
+   Status tag :  Empty
+
+
+Test Case 9  		<error>
+   Status tag :  None of the above
+
+
+Test Case 10 		<error>
+   Category tag :  Empty
+
+
+Test Case 11 		<error>
+   Category tag :  None of the above
+
+
+Test Case 12 		<error>
+   Email Address :  No address
+
+
+Test Case 13 		<error>
+   Email Address :  Invalid email
+
+
+Test Case 14 		<error>
+   Assignee tag :  No name given
+
+
+Test Case 15 		<error>
+   Assignee tag :  Invalid GT username
+
+
+Test Case 16 		<error>
+   Watchers List :  Invalid person in list
+
+
+Test Case 17 		(Key = 0.0.0.0.0.0.0.0.)
+   Presence of UserID           :  <n/a>
+   Length of ticket title       :  <n/a>
+   Length of ticket description :  <n/a>
+   Status tag                   :  <n/a>
+   Category tag                 :  <n/a>
+   Email Address                :  <n/a>
+   Assignee tag                 :  <n/a>
+   Watchers List                :  <n/a>
+
